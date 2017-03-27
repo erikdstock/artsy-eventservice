@@ -6,17 +6,16 @@ module Artsy
 
     ## Configure the Artsy-EventService in an initializer. Ex:
     # initializers/artsy_eventservice.rb
-    # 
-    # Artsy::EventService.configure do |event_service|
-    #   event_service.config.cool = true
-    #   event_service.consume topic: 'auctions',
+    #
+    # Artsy::EventService.configure do |es|
+    #   es.config.cool = true
+    #   es.consume topic: 'auctions',
     #              routing_key: '*',
     #              consumer_tag: 'pulse_auctions',
     #              handler: RabbitAuctions
-    #   event_service.post_event 'configured', {}
+    #   es.post_event topic: 'artsy-eventservice', {'configured' => true}
     # end
     def self.configure
-      puts "calling configure: #{CONFIG.frozen?}"
       yield(self) if block_given?
       CONFIG.freeze
     end
@@ -29,6 +28,11 @@ module Artsy
       return unless event_stream_enabled?
       Publisher.publish(topic: topic, event: event)
     end
+
+    def self.consume(**args)
+      raise 'Not implemented- try Sneakers'
+    end
+
 
     def self.event_stream_enabled?
       config.event_stream_enabled
