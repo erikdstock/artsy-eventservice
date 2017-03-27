@@ -30,13 +30,6 @@ module Artsy
       Publisher.publish(topic: topic, event: event)
     end
 
-    # TODO: up next
-    def self.consume(opts)
-      return unless event_stream_enabled?
-      Consumer.consume(opts)
-    end
-
-
     def self.event_stream_enabled?
       config.event_stream_enabled
     end
